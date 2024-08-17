@@ -1,10 +1,5 @@
 #include "circulos.h"
-#include <time.h>
-
-// Estrutura Circulo
-
-
-// Função para desenhar um círculo
+#include "arquivo.h"
 
 
 
@@ -25,6 +20,7 @@ void delay(int number_of_seconds)
 
 int main()
 {
+// ------------------ Variaveís primitivas ----------------------------------------
     srand(time(NULL));
     int pontos=0;
     int N=10;
@@ -33,7 +29,9 @@ int main()
     int highscore;
     int seg=0;
     int x=1;
+// --------------------------------------------------------------------------------
 
+//--------------- Inicialização addons ALLEGRO -------------------------------------
     al_init();
     al_init_font_addon();
     al_init_ttf_addon();
@@ -44,35 +42,42 @@ int main()
     al_install_audio();
     al_init_acodec_addon();
     al_reserve_samples(15);
+// -------------------------------------------------------------------------------
 
 
+// ----------------------- Carregando recursos do ALLEGRO -----------------------------
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / 144.0); // Tempo que redesenha a tela
     ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue(); // Criando a fila de eventos
-    ALLEGRO_DISPLAY* disp = al_create_display(800,800); // Resolução da tela
+    ALLEGRO_DISPLAY* disp = al_create_display(800,479); // Resolução da tela
     ALLEGRO_FONT* font = al_load_font("Fonte.ttf", 50, 0);
     ALLEGRO_SAMPLE* quack = al_load_sample("quack.wav");
     ALLEGRO_SAMPLE* fail = al_load_sample("fail.wav");
     ALLEGRO_BITMAP* image1 = al_load_bitmap("duck2.bmp");
     ALLEGRO_BITMAP* image2 = al_load_bitmap("duck3.bmp");
+    //ALLEGRO_BITMAP* fundo = al_load_bitmap("fundo.png");
+    ALLEGRO_EVENT event;
+// ------------------------------------------------------------------------------------
 
-
+// -------------------- Registrando eventos --------------------------------------------
     al_register_event_source(queue, al_get_keyboard_event_source()); // Registrando o teclado como um evento
     al_register_event_source(queue, al_get_mouse_event_source()); // Registrando o mouse como um evento
     al_register_event_source(queue, al_get_display_event_source(disp));
     al_register_event_source(queue, al_get_timer_event_source(timer));
+// ------------------------------------------------------------------------------------
 
     bool redraw = true;
 
-    FILE* f = fopen("highscore.txt","r");
-    if(fscanf(f,"%d",&highscore)==0)
-        highscore=0;
-    fclose(f);
+    Init_Highscore(&highscore); // Inicializando a variável Highscore
 
-    ALLEGRO_EVENT event;
+
     al_start_timer(timer);
 
+/* --------------- LOOP PRINCIPAL ------------------------
+--------------------------------------------------------
+--------------------------------------------------------*/
+
     while(x==1){
-        //al_hide_mouse_cursor(disp);
+        //al_hide_mouse_cursor(disp); // Esconde o cursor do mouse
         al_wait_for_event(queue, &event); // Vai ficar parado aqui até acontecer algo
 
         if(event.type == ALLEGRO_EVENT_TIMER){
@@ -107,6 +112,7 @@ int main()
         if(redraw && al_is_event_queue_empty(queue))
         {
 
+
              if((seg)%280 == 0 ){
                     al_clear_to_color(al_map_rgb(150, 150, 200));
                     for (int i=0; i<3; i++){
@@ -132,28 +138,22 @@ int main()
 
              }
 
+
+
             al_flip_display();
             redraw = false;
         }
     }
+/* ------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------FIM DO LOOP PRINCIPAL-------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------*/
+
+    LerHighscore(pontos); // Lendo o Highscore após o fim do jogo para salvar no arquivo highscore.txt
 
 
-    f = fopen("highscore.txt", "r");
-    if (fscanf(f, "%d", &highscore) == 1){
-        if (pontos > highscore){
-            fclose(f);
-            f = fopen("highscore.txt", "w");
-            fprintf(f,"%d", pontos);
-        }
-    }else {
-        fclose(f);
-        f = fopen("highscore.txt", "w");
-        fprintf(f,"%d", pontos);
-    }
-    fclose(f);
+    delay(10);
 
-    delay(5);
-
+    //al_destroy_bitmap(fundo);
     al_destroy_bitmap(image2);
     al_destroy_bitmap(image1);
     al_destroy_font(font);
