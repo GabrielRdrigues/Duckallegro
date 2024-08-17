@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include "arquivo.h"
 #include "circulo.h"
+#include "stack.h"
 
 
 
@@ -33,10 +34,11 @@ int main(){
 
 
 // ----------------------- Carregando recursos do ALLEGRO -----------------------------
-    ALLEGRO_DISPLAY*      disp = al_create_display(600, 400);
+    ALLEGRO_DISPLAY*      disp = al_create_display(1920, 1080);
     ALLEGRO_TIMER*       timer = al_create_timer(1.0/140.0);
     ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue();
     ALLEGRO_FONT*         font = al_load_font("dragon.ttf", 10, 0);
+    ALLEGRO_FONT*         font2 = al_load_font("dragon.ttf", 30, 0);
     ALLEGRO_BITMAP* image1 = al_load_bitmap("duckp2.png");
     ALLEGRO_BITMAP* image2 = al_load_bitmap("duckp3.png");
     ALLEGRO_BITMAP* image3 = al_load_bitmap("background.png");
@@ -65,10 +67,16 @@ int main(){
     int seg = 0;
     int pontos = 0;
     int n = 3;
+    int aux;
+    int por;
+    double tempo = 0;
     srand(time(NULL));
 
     circulo C1;
     C1.raio = 10;
+
+    Stack poderes;
+    init_stack(&poderes);
 
     circulo* Cr = malloc(100*sizeof(circulo));
     circulo* duckalive = malloc(100*sizeof(circulo));
@@ -94,50 +102,59 @@ int main(){
 
         al_wait_for_event(queue, &event);
 
-        if(event.type == ALLEGRO_EVENT_TIMER){
-            redraw = true;
-            seg++;
-            al_draw_textf(font , al_map_rgb(255 , 255 , 0) , 1 , 20 , ALLEGRO_ALIGN_LEFT , "HIGHSCORE: %d" , highscore);
+        if (event.type == ALLEGRO_EVENT_TIMER) {
+    redraw = true;
+    seg++;
+    al_draw_textf(font, al_map_rgb(255, 255, 0), 1, 20, ALLEGRO_ALIGN_LEFT, "HIGHSCORE: %d", highscore);
+} else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+    C1.x = event.mouse.x;
+    C1.y = event.mouse.y;
+    for(int i = 0; i < n; i++){
+                if(circulos_colidem(C1, Cr[i]) && (al_get_time() - tempo <= 560)){
+                    if(aux==0 || aux==1 || aux ==2){
+                        if(aux==0)
+                            pontos+= 2000;
+                        else if(aux==1)
+                            pontos+= 5000;
+                        else
+                            pontos+=10000;
+                    }else
+                        pontos+=100;
 
-        }else if(event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN){
-            C1.x = event.mouse.x;
-            C1.y = event.mouse.y;
-            for(int i = 0; i < n; i++){
-                if(circulos_colidem(C1, Cr[i])){
-                    pontos = pontos +100;
-                    Cr[i].r = 0;
 
-                    //reseta a tela
-                    al_draw_bitmap(image3, 0, 0, 0);
-
-                    //reescreve o highscore
-                    al_draw_textf(font , al_map_rgb(255 , 255 , 0) , 1 , 20 , ALLEGRO_ALIGN_LEFT , "HIGHSCORE: %d" , highscore);
-
-                    //reescreve o score atualizado
-                    al_draw_textf(font , al_map_rgb(255 , 255 , 0) , 1 , 1 , ALLEGRO_ALIGN_LEFT , "SCORE: %d" , pontos);
-
-                    //desenha o png do pato atingido
-                    al_draw_bitmap(image2, Cr[i].x-15, Cr[i].y-15, 0);
-
-                    //toca o quack
-                    al_play_sample(quack, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-
-                    duckalive[i].r = 0;
-
-                    for (int j=0; j<n; j++){
-                        if (duckalive[j].r != 0)
-                            al_draw_bitmap(image1, Cr[j].x-14, Cr[j].y-15, 0);
-                    }
-
+            Cr[i].r = 0;
+            // Reseta a tela
+            al_draw_bitmap(image3, 0, 0, 0);
+            // Reescreve o highscore
+            al_draw_textf(font, al_map_rgb(255, 255, 0), 1, 20, ALLEGRO_ALIGN_LEFT, "HIGHSCORE: %d", highscore);
+            // Reescreve o score atualizado
+            al_draw_textf(font, al_map_rgb(255, 255, 0), 1, 1, ALLEGRO_ALIGN_LEFT, "SCORE: %d", pontos);
+            // Desenha o PNG do pato atingido
+            al_draw_bitmap(image2, Cr[i].x - 15, Cr[i].y - 15, 0);
+            // Toca o quack
+            al_play_sample(quack, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+            duckalive[i].r = 0;
+            for (int j = 0; j < n; j++) {
+                if (duckalive[j].r != 0) {
+                    al_draw_bitmap(image1, Cr[j].x - 14, Cr[j].y - 15, 0);
                 }
             }
+        }
+    }
+} else if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
+    if (!is_empty(&poderes)) {
+        if (event.keyboard.keycode == ALLEGRO_KEY_1) {
+            aux = top(&poderes);
+            pop(&poderes);
+            tempo = al_get_time();
+        }
+    }
+} else if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+    break;
+}
 
-        }else if(event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-            break;
 
         if(redraw && al_is_event_queue_empty(queue)){
-
-            printf("%d ", seg);
 
             if ((seg)%280 == 0 || seg == 4){
                 al_draw_bitmap(image3, 0, 0, 0);
@@ -155,13 +172,31 @@ int main(){
                     }
                 }
 
-                if (seg == 1400){
-                    n=4;
+                if (seg == 560){
+                        por = rand()%3;
+                        push(&poderes, por);
+                        if(por==0)
+                            al_draw_textf(font2, al_map_rgb(255, 0, 0), 1, 50, ALLEGRO_ALIGN_LEFT,"2X + PONTOS");
+                        if(por==1)
+                            al_draw_textf(font2, al_map_rgb(255, 0, 0), 1, 50, ALLEGRO_ALIGN_LEFT,"5X + PONTOS");
+                        if(por==2)
+                            al_draw_textf(font2, al_map_rgb(255, 0,0), 1, 50, ALLEGRO_ALIGN_LEFT,"10X + PONTOS");
+                        n=4;
+
+
                 }
-                if (seg == 2800){
-                    n=5;
+                if (seg == 1120){
+                        por = rand()%3;
+                        push(&poderes, por);
+                        if(por==0)
+                            al_draw_textf(font2, al_map_rgb(255, 0, 0), 1, 50, ALLEGRO_ALIGN_LEFT,"2X + PONTOS");
+                        if(por==1)
+                            al_draw_textf(font2, al_map_rgb(255, 0, 0), 1, 50, ALLEGRO_ALIGN_LEFT,"5X + PONTOS");
+                        if(por==2)
+                            al_draw_textf(font2, al_map_rgb(255, 0,0), 1, 50, ALLEGRO_ALIGN_LEFT,"10X + PONTOS");
+                        n=5;
                 }
-                printf("(%d)", n);
+
 
                 for (int i=0; i<n; i++){
                     if (x==0){
