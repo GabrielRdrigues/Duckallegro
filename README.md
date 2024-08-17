@@ -6,7 +6,7 @@ O jogo se baseia no Aimlab.
 Requisitos:
    -usar pelo menos uma das estruturas estudadas (pilha, fila, lista encadeada, árvore binária…) ❌
    -usar arquivos (binários ou de texto) ✅
-   -organizar o código em bibliotecas (não pode fazer tudo em um único arquivo de código) ❌
+   -organizar o código em bibliotecas (não pode fazer tudo em um único arquivo de código) ✅
 
 
 1) Irá aparecer círculos na tela ✅ (patos)
@@ -24,4 +24,4 @@ Requisitos:
  	
 4- Perde se clicar fora ou se nao clicar em todos os patos ✅
 
-5- Fazer um fundo pro jogo
+5- Fazer um fundo pro jogo ✅
