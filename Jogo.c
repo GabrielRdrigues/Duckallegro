@@ -54,7 +54,7 @@ int main()
     ALLEGRO_SAMPLE* fail = al_load_sample("fail.wav");
     ALLEGRO_BITMAP* image1 = al_load_bitmap("duck2.bmp");
     ALLEGRO_BITMAP* image2 = al_load_bitmap("duck3.bmp");
-    //ALLEGRO_BITMAP* fundo = al_load_bitmap("fundo.png");
+    ALLEGRO_BITMAP* background = al_load_bitmap("fundo.png");
     ALLEGRO_EVENT event;
 // ------------------------------------------------------------------------------------
 
@@ -72,9 +72,8 @@ int main()
 
     al_start_timer(timer);
 
-/* --------------- LOOP PRINCIPAL ------------------------
---------------------------------------------------------
---------------------------------------------------------*/
+/* -----------------------------------LOOP PRINCIPAL -------------------------------------- ------------------------
+----------------------------------------------------------------------------------------------------------------*/
 
     while(x==1){
         //al_hide_mouse_cursor(disp); // Esconde o cursor do mouse
@@ -114,7 +113,7 @@ int main()
 
 
              if((seg)%280 == 0 ){
-                    al_clear_to_color(al_map_rgb(150, 150, 200));
+                    al_draw_scaled_bitmap(background, 0, 0, al_get_bitmap_width(background), al_get_bitmap_height(background), 0, 0, 600, 400, 0);
                     for (int i=0; i<3; i++){
                     if (seg > 280){
                         if (C[i].r != 150){
