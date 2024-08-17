@@ -47,7 +47,7 @@ int main(){
 // ------------------------------------------------------------------------------------
 
 
-    al_set_window_title(disp,"Aimllegro - GOTY");
+    al_set_window_title(disp,"Duckallegro - GOTY");
 
 
 // -------------------- Registrando eventos --------------------------------------------
