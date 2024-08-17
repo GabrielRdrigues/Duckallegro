@@ -16,7 +16,7 @@
 int main(){
 
 
-//--------------- Inicialização addons ALLEGRO -------------------------------------
+//--------------- InicializaÃ§Ã£o addons ALLEGRO -------------------------------------
     al_init();
     al_init_primitives_addon();
     al_install_keyboard();
@@ -57,7 +57,7 @@ int main(){
     al_register_event_source(queue, al_get_mouse_event_source());
 // ------------------------------------------------------------------------------------
 
-// ------------------ Variaveís primitivas ----------------------------------------
+// ------------------ VariaveÃ­s primitivas ----------------------------------------
     int highscore;
     bool redraw = true;
     int x = 1;
@@ -167,8 +167,8 @@ int main(){
                     if (x==0){
                         break;
                     }
-                    Cr[i].x = rand()%600;
-                    Cr[i].y = rand()%400;
+                    Cr[i].x = rand()%500 + 50;
+                    Cr[i].y = rand()%300 + 50;
                     Cr[i].raio = 20;
                     Cr[i].r = 255;
                     Cr[i].g = 255;
