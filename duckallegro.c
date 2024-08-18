@@ -42,8 +42,10 @@ int main(){
     ALLEGRO_BITMAP* image2 = al_load_bitmap("duckp3.png");
     ALLEGRO_BITMAP* image3 = al_load_bitmap("background.png");
     ALLEGRO_BITMAP* image4 = al_load_bitmap("gameover.png");
+    ALLEGRO_BITMAP* image5 = al_load_bitmap("menu.png");
     ALLEGRO_SAMPLE* quack = al_load_sample("quack.wav");
     ALLEGRO_SAMPLE* fail = al_load_sample("fail.wav");
+    ALLEGRO_SAMPLE* wings = al_load_sample("wings.wav");
     ALLEGRO_EVENT event;
 // ------------------------------------------------------------------------------------
 
@@ -84,9 +86,14 @@ int main(){
     
     // Lendo do Arquivo highscore.txt o maior score do usuário
     Init_Highscore(&highscore);
+
+    // Desenha o menu
+    al_draw_bitmap(image5, 0, 0, 0);
+    al_draw_textf(font , al_map_rgb(255 , 255 , 0) , 1 , 20 , ALLEGRO_ALIGN_LEFT , "HIGHSCORE: %d" , highscore);
+    al_draw_textf(font , al_map_rgb(255 , 255 , 0) , 1 , 1 , ALLEGRO_ALIGN_LEFT , "SCORE: %d" , pontos);
+    al_flip_display();
     
-
-
+    // Começa o timer
     al_start_timer(timer);
 
 /* -----------------------------------LOOP PRINCIPAL -------------------------------------- ------------------------
@@ -96,6 +103,7 @@ int main(){
             al_wait_for_event(queue, &event);
             if (event.type == ALLEGRO_EVENT_KEY_DOWN){
                 y=0;
+                al_play_sample(wings, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
             }
         }
 
