@@ -31,8 +31,7 @@ int main(){
 // ------------------------------------------------------------------------------------
 
 
-
-
+    
 // ----------------------- Carregando recursos do ALLEGRO -----------------------------
     ALLEGRO_DISPLAY*      disp = al_create_display(1920, 1080);
     ALLEGRO_TIMER*       timer = al_create_timer(1.0/140.0);
@@ -48,7 +47,7 @@ int main(){
     ALLEGRO_EVENT event;
 // ------------------------------------------------------------------------------------
 
-
+    // Colocando o título do jogo
     al_set_window_title(disp,"Duckallegro - GOTY");
 
 
@@ -60,32 +59,32 @@ int main(){
 // ------------------------------------------------------------------------------------
 
 // ------------------ Variaveís primitivas ----------------------------------------
-    int highscore;
-    bool redraw = true;
+    int highscore; // Highscore
+    bool redraw = true; // Rdesenhar
     int x = 1;
     int y = 1;
-    int seg = 0;
-    int pontos = 0;
-    int n = 3;
-    int aux;
-    int por;
-    double tempo = 0;
+    int seg = 0; // Timer
+    int pontos = 0; // Quantidade de pontos
+    int n = 3; // Quantidade de patos na tela
+    int aux; // Variável auxiliar
+    int por; // Variável auxiliar
+    double tempo = 0; // Tempo da função al_get_time
     srand(time(NULL));
 
-    circulo C1;
-    C1.raio = 10;
+    circulo C1; // Mouse
+    C1.raio = 10; // Hitbox do Mouse
 
     Stack poderes;
     init_stack(&poderes);
 
-    circulo* Cr = malloc(100*sizeof(circulo));
-    circulo* duckalive = malloc(100*sizeof(circulo));
+    circulo* Cr = malloc(100*sizeof(circulo)); // Vetor de circulos (hitbox do pato)
+    circulo* duckalive = malloc(100*sizeof(circulo)); // Vetor de patos vivos, que são repŕesentados por círculos.
 // ------------------------------------------------------------------------------------
 
-
-
+    
+    // Lendo do Arquivo highscore.txt o maior score do usuário
     Init_Highscore(&highscore);
-
+    
 
 
     al_start_timer(timer);
@@ -93,25 +92,25 @@ int main(){
 /* -----------------------------------LOOP PRINCIPAL -------------------------------------- ------------------------
 ----------------------------------------------------------------------------------------------------------------*/
     while(x==1){
-        while (y == 1){
+        while (y == 1){ // Espera antes de começar o jogo, aperte qualquer tecla para começar
             al_wait_for_event(queue, &event);
             if (event.type == ALLEGRO_EVENT_KEY_DOWN){
                 y=0;
             }
         }
 
-        al_wait_for_event(queue, &event);
+        al_wait_for_event(queue, &event); // Esperando um evento
 
         if (event.type == ALLEGRO_EVENT_TIMER) {
-    redraw = true;
-    seg++;
-    al_draw_textf(font, al_map_rgb(255, 255, 0), 1, 20, ALLEGRO_ALIGN_LEFT, "HIGHSCORE: %d", highscore);
-} else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+            redraw = true;
+            seg++; // Aumenta o timer
+            al_draw_textf(font, al_map_rgb(255, 255, 0), 1, 20, ALLEGRO_ALIGN_LEFT, "HIGHSCORE: %d", highscore); // Escreve o highscore
+} else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) { // Verifica se houve clique do mouse
     C1.x = event.mouse.x;
     C1.y = event.mouse.y;
     for(int i = 0; i < n; i++){
-                if(circulos_colidem(C1, Cr[i]) && (al_get_time() - tempo <= 560)){
-                    if(aux==0 || aux==1 || aux ==2){
+                if(circulos_colidem(C1, Cr[i])){
+                    if((aux==0 || aux==1 || aux ==2 ) && (al_get_time() - tempo <= 560)){
                         if(aux==0)
                             pontos+= 2000;
                         else if(aux==1)
@@ -120,25 +119,24 @@ int main(){
                             pontos+=10000;
                     }else
                         pontos+=100;
-
-
-            Cr[i].r = 0;
-            // Reseta a tela
-            al_draw_bitmap(image3, 0, 0, 0);
-            // Reescreve o highscore
-            al_draw_textf(font, al_map_rgb(255, 255, 0), 1, 20, ALLEGRO_ALIGN_LEFT, "HIGHSCORE: %d", highscore);
-            // Reescreve o score atualizado
-            al_draw_textf(font, al_map_rgb(255, 255, 0), 1, 1, ALLEGRO_ALIGN_LEFT, "SCORE: %d", pontos);
-            // Desenha o PNG do pato atingido
-            al_draw_bitmap(image2, Cr[i].x - 15, Cr[i].y - 15, 0);
-            // Toca o quack
-            al_play_sample(quack, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-            duckalive[i].r = 0;
-            for (int j = 0; j < n; j++) {
-                if (duckalive[j].r != 0) {
-                    al_draw_bitmap(image1, Cr[j].x - 14, Cr[j].y - 15, 0);
-                }
-            }
+                    
+                    Cr[i].r = 0;
+                    // Reseta a tela
+                    al_draw_bitmap(image3, 0, 0, 0);
+                    // Reescreve o highscore
+                    al_draw_textf(font, al_map_rgb(255, 255, 0), 1, 20, ALLEGRO_ALIGN_LEFT, "HIGHSCORE: %d", highscore);
+                    // Reescreve o score atualizado
+                    al_draw_textf(font, al_map_rgb(255, 255, 0), 1, 1, ALLEGRO_ALIGN_LEFT, "SCORE: %d", pontos);
+                    // Desenha o PNG do pato atingido
+                    al_draw_bitmap(image2, Cr[i].x - 15, Cr[i].y - 15, 0);
+                    // Toca o quack
+                    al_play_sample(quack, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    duckalive[i].r = 0;
+                    for (int j = 0; j < n; j++) {
+                        if (duckalive[j].r != 0) {
+                            al_draw_bitmap(image1, Cr[j].x - 14, Cr[j].y - 15, 0);
+                        }
+                    }
         }
     }
 } else if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
@@ -153,14 +151,9 @@ int main(){
     break;
 }
 
-
-        if(redraw && al_is_event_queue_empty(queue)){
-
+if(redraw && al_is_event_queue_empty(queue)){
             if ((seg)%280 == 0 || seg == 4){
                 al_draw_bitmap(image3, 0, 0, 0);
-
-
-
                 for (int i=0; i<n; i++){
                     if (seg > 140){
                         if (Cr[i].r != 0){
@@ -171,33 +164,28 @@ int main(){
                         }
                     }
                 }
-
                 if (seg == 560){
-                        por = rand()%3;
-                        push(&poderes, por);
+                        por = rand()%3; // O poder é obtido de forma aleatório
+                        push(&poderes, por); // Dando push do poder na pilha
                         if(por==0)
-                            al_draw_textf(font2, al_map_rgb(255, 0, 0), 1, 50, ALLEGRO_ALIGN_LEFT,"2X + PONTOS");
+                            al_draw_textf(font2, al_map_rgb(255, 0, 0), 1, 50, ALLEGRO_ALIGN_LEFT,"2X + PONTOS"); // Avisando ao usuário do poder
                         if(por==1)
-                            al_draw_textf(font2, al_map_rgb(255, 0, 0), 1, 50, ALLEGRO_ALIGN_LEFT,"5X + PONTOS");
+                            al_draw_textf(font2, al_map_rgb(255, 0, 0), 1, 50, ALLEGRO_ALIGN_LEFT,"5X + PONTOS"); // Avisando ao usuário do poder
                         if(por==2)
-                            al_draw_textf(font2, al_map_rgb(255, 0,0), 1, 50, ALLEGRO_ALIGN_LEFT,"10X + PONTOS");
-                        n=4;
-
-
+                            al_draw_textf(font2, al_map_rgb(255, 0,0), 1, 50, ALLEGRO_ALIGN_LEFT,"10X + PONTOS"); // Avisando ao usuário do poder
+                        n=4; // Aumentando o número de patos na tela
                 }
                 if (seg == 1120){
-                        por = rand()%3;
-                        push(&poderes, por);
+                        por = rand()%3; // O poder é obtido de forma aleatória
+                        push(&poderes, por); // Dando push do poder na pilha
                         if(por==0)
-                            al_draw_textf(font2, al_map_rgb(255, 0, 0), 1, 50, ALLEGRO_ALIGN_LEFT,"2X + PONTOS");
+                            al_draw_textf(font2, al_map_rgb(255, 0, 0), 1, 50, ALLEGRO_ALIGN_LEFT,"2X + PONTOS"); // Avisando ao usuário do poder
                         if(por==1)
-                            al_draw_textf(font2, al_map_rgb(255, 0, 0), 1, 50, ALLEGRO_ALIGN_LEFT,"5X + PONTOS");
+                            al_draw_textf(font2, al_map_rgb(255, 0, 0), 1, 50, ALLEGRO_ALIGN_LEFT,"5X + PONTOS"); // Avisando ao usuário do poder
                         if(por==2)
-                            al_draw_textf(font2, al_map_rgb(255, 0,0), 1, 50, ALLEGRO_ALIGN_LEFT,"10X + PONTOS");
-                        n=5;
+                            al_draw_textf(font2, al_map_rgb(255, 0,0), 1, 50, ALLEGRO_ALIGN_LEFT,"10X + PONTOS"); // Avisando ao usuário do poder
+                        n=5; // Aumentando o número de patos na tela
                 }
-
-
                 for (int i=0; i<n; i++){
                     if (x==0){
                         break;
@@ -214,9 +202,6 @@ int main(){
                     duckalive[i] = Cr[i];
                 }
             }
-
-
-
             al_flip_display();
             redraw = false;
         }
@@ -225,13 +210,15 @@ int main(){
 ---------------------------------------------------FIM DO LOOP PRINCIPAL-------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------------*/
 
-    LerHighscore(pontos);
+    // Verificando se o score da partida atual é maior que seu highscore armazenado no arquivo, se for, será seu novo highscore.
+    LerHighscore(pontos); 
 
-    free(Cr);
-    free(duckalive);
+    free(Cr); // Liberando a memória alocada.
+    free(duckalive); // Liberando a memória alocada.
 
     sleep(5);
 
+    // Destruindo componentes do Allegro
     al_destroy_display(disp);
     al_destroy_timer(timer);
     al_destroy_event_queue(queue);
