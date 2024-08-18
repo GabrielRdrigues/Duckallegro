@@ -4,7 +4,7 @@ O jogo se baseia no Aimlab.
 
 
 Requisitos:
-   -usar pelo menos uma das estruturas estudadas (pilha, fila, lista encadeada, árvore binária…) ✅
+   -usar pelo menos uma das estruturas estudadas (pilha, fila, lista encadeada, árvore binária…) ✅ \n
    -usar arquivos (binários ou de texto) ✅
    -organizar o código em bibliotecas (não pode fazer tudo em um único arquivo de código) ✅
 
