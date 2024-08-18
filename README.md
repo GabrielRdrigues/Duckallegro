@@ -4,7 +4,7 @@ O jogo se baseia no Aimlab.
 
 
 Requisitos:
-   -usar pelo menos uma das estruturas estudadas (pilha, fila, lista encadeada, árvore binária…) ❌
+   -usar pelo menos uma das estruturas estudadas (pilha, fila, lista encadeada, árvore binária…) ✅
    -usar arquivos (binários ou de texto) ✅
    -organizar o código em bibliotecas (não pode fazer tudo em um único arquivo de código) ✅
 
@@ -14,7 +14,7 @@ Requisitos:
   - Verificar corretamente se o usuário clicou no círculo ✅ (patos)
   - Se clicou +1 no Score. ✅ (patos)
  
- 2) Utilizar uma pilha ou fila para implementar os poderes/buffs do jogo ❌
+ 2) Utilizar uma pilha ou fila para implementar os poderes/buffs do jogo ✅
     - Os círculos aumentam de tamanho
     - Dobro de pontos por círculo
     - 10x de pontos por círculo
