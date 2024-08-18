@@ -11,10 +11,10 @@ Requisitos:
    - organizar o código em bibliotecas (não pode fazer tudo em um único arquivo de código) ✅
 
 
-1) Irá aparecer círculos na tela ✅ (patos)
-  - Fazer os círculos aparecerem aleatoriamente ✅ (patos)
-  - Verificar corretamente se o usuário clicou no círculo ✅ (patos)
-  - Se clicou +1 no Score. ✅ (patos)
+1) Irá aparecer patos na tela ✅ 
+  - Fazer os patos aparecerem aleatoriamente ✅ 
+  - Verificar corretamente se o usuário clicou no pato ✅ 
+  - Se clicou +100 no Score. ✅ 
  
  2) Utilizar uma pilha ou fila para implementar os poderes/buffs do jogo ✅
     - Dobro de pontos por pato
