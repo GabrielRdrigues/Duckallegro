@@ -1,10 +1,12 @@
-Título: Aimllegro
+Trabalho de Programação II - 2024.1 - UFF - Ciência da Computação
+Breno Machado, Gabriel Rodrigues e Nuno Couto
 
-O jogo se baseia no Aimlab.
+Título: Duckllegro
 
+O jogo se baseia no DuckHunt + Aimlab
 
 Requisitos:
-   -usar pelo menos uma das estruturas estudadas (pilha, fila, lista encadeada, árvore binária…) ✅ \n
+   -usar pelo menos uma das estruturas estudadas (pilha, fila, lista encadeada, árvore binária…) ✅ 
    -usar arquivos (binários ou de texto) ✅
    -organizar o código em bibliotecas (não pode fazer tudo em um único arquivo de código) ✅
 
@@ -15,13 +17,12 @@ Requisitos:
   - Se clicou +1 no Score. ✅ (patos)
  
  2) Utilizar uma pilha ou fila para implementar os poderes/buffs do jogo ✅
-    - Os círculos aumentam de tamanho
-    - Dobro de pontos por círculo
-    - 10x de pontos por círculo
-    - ??
+    - Dobro de pontos por pato
+    -  5x de pontos por pato
+    - 10x de pontos por pato
     
 3- Salva o highscore no arquivo e lê se tem uma highscore no arquivo. ✅
  	
-4- Perde se clicar fora ou se nao clicar em todos os patos ✅
+4- Perde se nao clicar em todos os patos ✅
 
 5- Fazer um fundo pro jogo ✅
