@@ -7,7 +7,7 @@
 #include <assert.h>
 
 typedef struct{
-    char data[MAXSIZE];
+    int data[MAXSIZE];
     int n;
 }Stack;
 
@@ -19,10 +19,10 @@ void init_stack(Stack* stack);
 bool is_empty(Stack* stack);
 
 /* Retorna o topo da pilha*/
-char top(Stack* stack);
+int top(Stack* stack);
 
 /* Empilha */
-void push(Stack* stack, char value);
+void push(Stack* stack, int value);
 
 /* Desempilha */
 void pop(Stack* stack);
