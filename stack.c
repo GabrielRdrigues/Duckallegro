@@ -10,12 +10,12 @@ bool is_empty(Stack* stack){
     return stack->n==0;
 }
 
-char top(Stack* stack){
+int top(Stack* stack){
     assert(!is_empty(stack));
     return stack->data[stack->n-1];
 }
 
-void push(Stack* stack, char value){
+void push(Stack* stack, int value){
     assert(stack->n < MAXSIZE);
     stack->data[stack->n++] = value;
 }
