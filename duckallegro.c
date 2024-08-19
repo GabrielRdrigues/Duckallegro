@@ -60,7 +60,7 @@ int main(){
     al_register_event_source(queue, al_get_mouse_event_source());
 // ------------------------------------------------------------------------------------
 
-// ------------------ Variaveís primitivas ----------------------------------------
+// ------------------ Variaveís ----------------------------------------
     int highscore; // Highscore
     bool redraw = true; // Rdesenhar
     int x = 1;
