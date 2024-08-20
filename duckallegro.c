@@ -113,10 +113,10 @@ int main(){
             redraw = true;
             seg++; // Aumenta o timer
             al_draw_textf(font, al_map_rgb(255, 255, 0), 1, 20, ALLEGRO_ALIGN_LEFT, "HIGHSCORE: %d", highscore); // Escreve o highscore
-} else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) { // Verifica se houve clique do mouse
-    C1.x = event.mouse.x;
-    C1.y = event.mouse.y;
-    for(int i = 0; i < n; i++){
+    } else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) { // Verifica se houve clique do mouse
+        C1.x = event.mouse.x;
+        C1.y = event.mouse.y;
+        for(int i = 0; i < n; i++){
                 if(circulos_colidem(C1, Cr[i])){
                     if((aux==0 || aux==1 || aux ==2 ) && (al_get_time() - tempo <= 560)){
                         if(aux==0)
@@ -126,7 +126,7 @@ int main(){
                         else
                             pontos+=10000;
                     }else
-                        pontos+=100;
+                        pontos+=1000;
                     
                     Cr[i].r = 0;
                     // Reseta a tela
