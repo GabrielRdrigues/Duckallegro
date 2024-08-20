@@ -1,7 +1,7 @@
 Trabalho de Programação II - 2024.1 - UFF - Ciência da Computação
  - Breno Machado, Gabriel Rodrigues e Nuno Couto
 
-Título: Duckllegro
+Título: Duckallegro
 
 O jogo se baseia no DuckHunt + Aimlab
 
